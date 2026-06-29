@@ -1,0 +1,24 @@
+# Logs
+logs
+*.log
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build output
+dist
+dist-ssr
+*.local
+
+# Env files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.DS_Store
+
+# Claude Code local credentials (skills/settings are tracked, this is not)
+.claude/settings.local.json
