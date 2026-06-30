@@ -1,6 +1,6 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Button, type ButtonSize, type ButtonVariant } from "../src";
+import { Button, Field, Input, type ButtonSize, type ButtonVariant } from "../src";
 import "./playground.css";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "destructive", "outline", "ghost"];
@@ -28,6 +28,15 @@ function CloseIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="2" />
+      <path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="2" />
     </svg>
   );
 }
@@ -146,6 +155,83 @@ function TruncationExample() {
   );
 }
 
+function FieldStatesGrid() {
+  return (
+    <section>
+      <h2>Field: rest / hover / focus / disabled / read-only</h2>
+      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+        <Field label="Business name">
+          <Input placeholder="Hover me" />
+        </Field>
+        <Field label="Email" required>
+          <Input type="email" placeholder="you@example.com" />
+        </Field>
+        <Field label="Disabled field">
+          <Input disabled defaultValue="Can't touch this" />
+        </Field>
+        <Field label="Read-only field" helperText="Set automatically, not editable">
+          <Input readOnly defaultValue="auto-generated-id-123" />
+        </Field>
+      </div>
+    </section>
+  );
+}
+
+function FieldErrorInspector() {
+  const [hasError, setHasError] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <section>
+      <h2>Field: error + helper-text precedence</h2>
+      <label style={{ marginRight: "1rem" }}>
+        <input
+          type="checkbox"
+          checked={hasError}
+          onChange={(event) => setHasError(event.target.checked)}
+        />{" "}
+        error
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={disabled}
+          onChange={(event) => setDisabled(event.target.checked)}
+        />{" "}
+        disabled
+      </label>
+      <div style={{ marginTop: "1rem", maxWidth: "320px" }}>
+        <Field
+          label="Phone number"
+          helperText="We'll only use this to confirm your booking"
+          error={hasError ? "Enter a valid phone number" : undefined}
+        >
+          <Input type="tel" disabled={disabled} placeholder="+1 555 0100" />
+        </Field>
+      </div>
+    </section>
+  );
+}
+
+function FieldIconExamples() {
+  return (
+    <section>
+      <h2>Field: icon adornments</h2>
+      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+        <Field label="Search">
+          <Input type="search" leadingIcon={<SearchIcon />} placeholder="Search bookings" />
+        </Field>
+        <Field label="Confirm deletion">
+          <Input trailingIcon={<CloseIcon />} placeholder="Type DELETE" />
+        </Field>
+        <Field label="Both icons">
+          <Input leadingIcon={<SearchIcon />} trailingIcon={<CloseIcon />} placeholder="Filter" />
+        </Field>
+      </div>
+    </section>
+  );
+}
+
 function Playground() {
   return (
     <main
@@ -163,6 +249,9 @@ function Playground() {
       <StateInspector />
       <IconExamples />
       <TruncationExample />
+      <FieldStatesGrid />
+      <FieldErrorInspector />
+      <FieldIconExamples />
     </main>
   );
 }

@@ -155,6 +155,24 @@
 }
 
 /*
+ * Browser autofill override (Feature 08, Input Component — research.md Decision 8).
+ * Chromium-based browsers hardcode an autofilled <input>'s background/text color in a way
+ * that bypasses any background-color utility class. The long transition-delay technique
+ * below forces it back to the existing background/foreground tokens — no new color value
+ * is introduced (FR-011).
+ */
+@layer base {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+    box-shadow: 0 0 0 1000px var(--background) inset;
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+}
+
+/*
  * Base-element defaults — maps bare HTML elements to typography roles so the
  * scale renders visibly with zero component file edits (FR-008). Both
  * surfaces implement these identically. body-secondary and numeric-tabular
