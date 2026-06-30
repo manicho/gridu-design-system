@@ -3,12 +3,14 @@ import { createRoot } from "react-dom/client";
 import {
   Button,
   Card,
+  Chart,
   Field,
   Input,
   Navigation,
   Table,
   type ButtonSize,
   type ButtonVariant,
+  type ChartPoint,
   type NavItemProps,
   type TableColumn,
 } from "../src";
@@ -534,6 +536,90 @@ function NavigationEdgeCasesExample() {
   );
 }
 
+const weeklyBookings: ChartPoint[] = [
+  { label: "Mon", value: 12 },
+  { label: "Tue", value: 18 },
+  { label: "Wed", value: 9 },
+  { label: "Thu", value: 21 },
+  { label: "Fri", value: 27 },
+];
+
+function ChartLineExample() {
+  return (
+    <section>
+      <h2>Chart: line mode (US1) — point/focus interaction, hidden data table</h2>
+      <Chart
+        mode="line"
+        points={weeklyBookings}
+        width={480}
+        height={260}
+        title="Bookings this week"
+        valueAxisLabel="Bookings"
+      />
+    </section>
+  );
+}
+
+const serviceComparison: ChartPoint[] = [
+  { label: "Haircut", value: 32 },
+  { label: "Color", value: 14 },
+  { label: "Refunds", value: -4 },
+];
+
+function ChartBarExample() {
+  return (
+    <section>
+      <h2>Chart: bar mode (US2) — proportional bars, negative value below baseline</h2>
+      <Chart
+        mode="bar"
+        points={serviceComparison}
+        width={480}
+        height={260}
+        title="Bookings by service"
+        valueAxisLabel="Bookings"
+      />
+    </section>
+  );
+}
+
+function ChartLoadingEmptyExample() {
+  return (
+    <section>
+      <h2>Chart: loading (US3) and empty (US3) states</h2>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <Chart mode="line" points={weeklyBookings} width={300} height={200} title="Loading" loading />
+        <Chart mode="bar" points={[]} width={300} height={200} title="No data yet" />
+      </div>
+    </section>
+  );
+}
+
+function ChartEdgeCasesExample() {
+  const singlePoint: ChartPoint[] = [{ label: "Today", value: 14 }];
+  const missingValuePoints: ChartPoint[] = [
+    { label: "Mon", value: 12 },
+    { label: "Tue", value: null },
+    { label: "Wed", value: 9 },
+  ];
+  const manyCategories: ChartPoint[] = Array.from({ length: 20 }, (_, i) => ({
+    label: `Day ${i + 1}`,
+    value: Math.round(Math.sin(i / 2) * 10 + 15),
+  }));
+  return (
+    <section>
+      <h2>
+        Chart: single point (FR-011), missing value (FR-014), narrow-container label thinning
+        (FR-013)
+      </h2>
+      <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+        <Chart mode="line" points={singlePoint} width={200} height={160} title="Single point" />
+        <Chart mode="line" points={missingValuePoints} width={300} height={200} title="Missing value" />
+        <Chart mode="line" points={manyCategories} width={280} height={200} title="Many categories" />
+      </div>
+    </section>
+  );
+}
+
 function Playground() {
   return (
     <main
@@ -564,6 +650,10 @@ function Playground() {
       <NavigationVerticalExample />
       <NavigationHorizontalExample />
       <NavigationEdgeCasesExample />
+      <ChartLineExample />
+      <ChartBarExample />
+      <ChartLoadingEmptyExample />
+      <ChartEdgeCasesExample />
     </main>
   );
 }

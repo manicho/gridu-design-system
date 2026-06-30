@@ -43,3 +43,6 @@ export type {
   AnchorNavItemProps,
   ButtonNavItemProps,
 } from "./components/navigation/navigation";
+
+export { Chart } from "./components/chart/chart";
+export type { ChartProps, ChartMode, ChartPoint } from "./components/chart/chart";
