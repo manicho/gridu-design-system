@@ -1,0 +1,8 @@
+/* Playground-only Tailwind entry point. tokens.css itself stays a plain values file
+   (Feature 06 Decision 1 — consumers copy its values rather than importing it live), so
+   the live Tailwind wiring lives here, not in tokens.css. */
+@import "tailwindcss";
+/* Vite's dev `root` is this directory, so Tailwind's automatic source detection would
+   otherwise never see component source one level up — scan it explicitly. */
+@source "../src";
+@import "../tokens/tokens.css";

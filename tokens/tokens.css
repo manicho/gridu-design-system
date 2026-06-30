@@ -65,6 +65,37 @@
 }
 
 /* ==========================================================================
+   Color theme registration — exposes the 15 canonical roles above as Tailwind
+   v4 utilities (bg-brand, text-foreground, ring-ring, etc.). gridu-web and
+   gridu-landing each separately register their own pre-existing alias names
+   (card, secondary, sidebar*, etc. — see data-model.md's Token Alias
+   mapping) in their own files; this block registers the canonical names
+   themselves, for any consumer (e.g. this repo's own playground, or a future
+   direct package consumer) that uses them directly rather than through an
+   alias. Feature 07 (Button Component) added this block — Feature 06 only
+   registered typography as @theme entries, leaving tokens.css unable to
+   stand on its own as a live Tailwind source for color utilities.
+   ========================================================================== */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted-surface: var(--muted-surface);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+}
+
+/* ==========================================================================
    Typography — 8 semantic roles
    Tailwind v4 theme namespaces: --text-* (+ --text-*--line-height) generates
    a combined text-{role} utility; --tracking-* generates tracking-{role}.

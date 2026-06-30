@@ -30,5 +30,5 @@ its output becomes this repo's `/speckit-constitution`.
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at specs/06-define-design-tokens/plan.md
+at specs/07-button-component/plan.md
 <!-- SPECKIT END -->
