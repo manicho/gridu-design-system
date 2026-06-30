@@ -1,0 +1,256 @@
+/*
+ * Canonical Design Tokens — gridu
+ *
+ * Version: 1.0.0
+ * Status: Final
+ * Source: specs/04-define-color-system/color-system.md (Final),
+ *         specs/05-define-typography-system/typography-system.md (Final)
+ *
+ * This file is the single authoritative source for color and typography token
+ * values across the gridu design system. gridu-web (src/index.css) and
+ * gridu-landing (src/styles/global.css) each implement these exact values —
+ * see specs/06-define-design-tokens/data-model.md for the Token Alias mapping
+ * that lets each surface's existing token names (card, secondary, sidebar*,
+ * etc.) resolve to these canonical roles without any component file changes.
+ *
+ * Real package distribution (installing this as an npm dependency) is
+ * deferred to the epic's Phase 0 → Phase 1 checkpoint — see
+ * specs/06-define-design-tokens/research.md Decision 1.
+ */
+
+/* ==========================================================================
+   Color — 15 semantic roles, light + dark (OKLCH)
+   ========================================================================== */
+
+:root {
+  /* Base (9) */
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.14 0.01 240);
+  --muted-surface: oklch(0.96 0.01 240);
+  --muted-foreground: oklch(0.52 0.02 240);
+  --border: oklch(0.91 0.01 240);
+  --input: oklch(0.88 0.01 240);
+  --ring: oklch(0.5 0.12 165);
+  --primary: oklch(0.18 0.01 240);
+  --primary-foreground: oklch(0.98 0 0);
+
+  /* Status (6) */
+  --brand: oklch(0.44 0.12 165);
+  --brand-strong: oklch(0.34 0.12 165);
+  --brand-subtle: oklch(0.94 0.04 165);
+  --destructive: oklch(0.5 0.22 25);
+  --warning: oklch(0.52 0.17 80);
+  --success: oklch(0.47 0.13 150);
+}
+
+.dark {
+  /* Base (9) */
+  --background: oklch(0.16 0.01 240);
+  --foreground: oklch(0.95 0.01 240);
+  --muted-surface: oklch(0.21 0.01 240);
+  --muted-foreground: oklch(0.61 0.02 240);
+  --border: oklch(0.3 0.01 240);
+  --input: oklch(0.33 0.01 240);
+  --ring: oklch(0.74 0.12 165);
+  --primary: oklch(0.93 0.01 240);
+  --primary-foreground: oklch(0.15 0.01 240);
+
+  /* Status (6) */
+  --brand: oklch(0.72 0.12 165);
+  --brand-strong: oklch(0.82 0.12 165);
+  --brand-subtle: oklch(0.22 0.05 165);
+  --destructive: oklch(0.65 0.22 25);
+  --warning: oklch(0.72 0.17 80);
+  --success: oklch(0.7 0.13 150);
+}
+
+/* ==========================================================================
+   Color theme registration — exposes the 15 canonical roles above as Tailwind
+   v4 utilities (bg-brand, text-foreground, ring-ring, etc.). gridu-web and
+   gridu-landing each separately register their own pre-existing alias names
+   (card, secondary, sidebar*, etc. — see data-model.md's Token Alias
+   mapping) in their own files; this block registers the canonical names
+   themselves, for any consumer (e.g. this repo's own playground, or a future
+   direct package consumer) that uses them directly rather than through an
+   alias. Feature 07 (Button Component) added this block — Feature 06 only
+   registered typography as @theme entries, leaving tokens.css unable to
+   stand on its own as a live Tailwind source for color utilities.
+   ========================================================================== */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted-surface: var(--muted-surface);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+}
+
+/* ==========================================================================
+   Typography — 8 semantic roles
+   Tailwind v4 theme namespaces: --text-* (+ --text-*--line-height) generates
+   a combined text-{role} utility; --tracking-* generates tracking-{role}.
+   Weight is NOT a theme entry here — reuse Tailwind's existing font-bold/
+   font-semibold/font-medium/font-normal utilities (700/600/500/400 map
+   exactly). See specs/06-define-design-tokens/research.md Decision 4.
+   ========================================================================== */
+
+@theme inline {
+  /* heading-page: 2rem / 1.2 / -0.02em / 700 */
+  --text-heading-page: 2rem;
+  --text-heading-page--line-height: 1.2;
+  --tracking-heading-page: -0.02em;
+
+  /* heading-section: 1.5rem / 1.25 / -0.01em / 700 */
+  --text-heading-section: 1.5rem;
+  --text-heading-section--line-height: 1.25;
+  --tracking-heading-section: -0.01em;
+
+  /* heading-subsection: 1.125rem / 1.3 / 0 / 600 */
+  --text-heading-subsection: 1.125rem;
+  --text-heading-subsection--line-height: 1.3;
+
+  /* body-default: 1rem / 1.5 / 0 / 400 */
+  --text-body-default: 1rem;
+  --text-body-default--line-height: 1.5;
+
+  /* body-secondary: 0.875rem / 1.5 / 0 / 400 */
+  --text-body-secondary: 0.875rem;
+  --text-body-secondary--line-height: 1.5;
+
+  /* label: 0.875rem / 1.4 / 0 / 500 */
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.4;
+
+  /* caption: 0.75rem / 1.4 / 0.01em / 400 */
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --tracking-caption: 0.01em;
+
+  /* numeric-tabular: 1rem (default, composes with context) / 1.2 / 0 / 600 */
+  --text-numeric-tabular: 1rem;
+  --text-numeric-tabular--line-height: 1.2;
+}
+
+/*
+ * numeric-tabular's tabular-figure feature is a fixed feature toggle, not a
+ * themeable scale value — defined as a utility class, not a @theme entry.
+ * gridu-web: new .numeric-tabular utility.
+ * gridu-landing: folded into the existing .tabular-nums utility (already
+ * present in global.css), which gains lining-nums alongside tabular-nums.
+ */
+@layer utilities {
+  .numeric-tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+/*
+ * Browser autofill override (Feature 08, Input Component — research.md Decision 8).
+ * Chromium-based browsers hardcode an autofilled <input>'s background/text color in a way
+ * that bypasses any background-color utility class. The long transition-delay technique
+ * below forces it back to the existing background/foreground tokens — no new color value
+ * is introduced (FR-011).
+ */
+@layer base {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--foreground);
+    -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+    box-shadow: 0 0 0 1000px var(--background) inset;
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+}
+
+/*
+ * Base-element defaults — maps bare HTML elements to typography roles so the
+ * scale renders visibly with zero component file edits (FR-008). Both
+ * surfaces implement these identically. body-secondary and numeric-tabular
+ * have no single natural bare-element mapping and remain utility-class-only,
+ * for explicit per-component adoption in Features 07-12.
+ */
+@layer base {
+  h1 {
+    font-size: var(--text-heading-page);
+    line-height: var(--text-heading-page--line-height);
+    letter-spacing: var(--tracking-heading-page);
+    font-weight: 700;
+  }
+  h2 {
+    font-size: var(--text-heading-section);
+    line-height: var(--text-heading-section--line-height);
+    letter-spacing: var(--tracking-heading-section);
+    font-weight: 700;
+  }
+  h3 {
+    font-size: var(--text-heading-subsection);
+    line-height: var(--text-heading-subsection--line-height);
+    font-weight: 600;
+  }
+  body,
+  p {
+    font-size: var(--text-body-default);
+    line-height: var(--text-body-default--line-height);
+    font-weight: 400;
+  }
+  label {
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
+    font-weight: 500;
+  }
+  small {
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--tracking-caption);
+    font-weight: 400;
+  }
+}
+
+/* ==========================================================================
+   Token Alias Mapping (documentation only — implemented per-surface)
+   ========================================================================== ​
+
+   gridu-web and gridu-landing each define additional CSS custom property
+   names that pre-date this token system and are still actively referenced by
+   existing components. These are NOT canonical roles — they are aliases that
+   redirect an existing name to one of the 15 canonical color roles above, so
+   that no component file needs to change (FR-008). See research.md Decisions
+   2-3 and data-model.md's Token Alias entity for the full rationale.
+
+   Shared aliases (both gridu-web and gridu-landing define these names):
+     card                  -> muted-surface
+     card-foreground       -> foreground
+     popover               -> background   (unreferenced by any component — confirmed via repo search)
+     popover-foreground    -> foreground
+     secondary             -> muted-surface
+     secondary-foreground  -> foreground
+     muted                 -> muted-surface  (added during implementation — bg-muted is actively
+                                               used in auth-card.tsx, table.tsx, skeleton.tsx;
+                                               missed in the original Decision 2 research pass)
+     accent                -> muted-surface
+     accent-foreground     -> foreground
+     destructive-foreground -> primary-foreground
+     brand-foreground      -> primary-foreground  (added during implementation — text-brand-foreground
+                                                     is actively used in button.tsx, badge.tsx; missed
+                                                     in the original Decision 2 research pass)
+
+   gridu-web-only aliases (sidebar — no gridu-landing equivalent, no sidebar UI):
+     sidebar                     -> background
+     sidebar-foreground          -> foreground
+     sidebar-primary              -> primary
+     sidebar-primary-foreground   -> primary-foreground
+     sidebar-accent                -> muted-surface
+     sidebar-accent-foreground     -> foreground
+     sidebar-border                 -> border
+     sidebar-ring                    -> ring
+*/
