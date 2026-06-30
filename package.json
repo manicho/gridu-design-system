@@ -1,7 +1,7 @@
 {
   "name": "gridu-design-system",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.4",
   "type": "module",
   "description": "Shared design system for the gridu ecosystem (tokens, principles, components)",
   "main": "./dist/index.js",
