@@ -1,6 +1,15 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Button, Card, Field, Input, type ButtonSize, type ButtonVariant } from "../src";
+import {
+  Button,
+  Card,
+  Field,
+  Input,
+  Table,
+  type ButtonSize,
+  type ButtonVariant,
+  type TableColumn,
+} from "../src";
 import "./playground.css";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "destructive", "outline", "ghost"];
@@ -365,6 +374,112 @@ function CardInteractiveGrid() {
   );
 }
 
+type ClientRow = { id: string; name: string; email: string; balance: number };
+
+const clientRows: ClientRow[] = [
+  { id: "1", name: "Beatriz Fernández", email: "beatriz@example.cl", balance: 45000 },
+  { id: "2", name: "Andrés Soto", email: "andres@example.cl", balance: 12000 },
+  {
+    id: "3",
+    name: "Carla Muñoz Larraín de la Torre y Vásquez Hernández González",
+    email: "carla@example.cl",
+    balance: 80000,
+  },
+  { id: "4", name: "Diego Pizarro", email: "diego@example.cl", balance: 0 },
+];
+
+function TableStaticExample() {
+  const columns: TableColumn<ClientRow>[] = [
+    { key: "name", header: "Name" },
+    { key: "email", header: "Email" },
+    { key: "balance", header: "Balance (CLP)", numeric: true },
+  ];
+  return (
+    <section>
+      <h2>Table: rows at rest (US1) — zebra striping, truncation, empty state</h2>
+      <div style={{ maxWidth: "640px" }}>
+        <Table columns={columns} rows={clientRows} />
+      </div>
+      <p>Empty state:</p>
+      <div style={{ maxWidth: "640px" }}>
+        <Table columns={columns} rows={[]} emptyMessage="No clients yet" />
+      </div>
+      <p>Loading state:</p>
+      <div style={{ maxWidth: "640px" }}>
+        <Table columns={columns} rows={clientRows} loading />
+      </div>
+    </section>
+  );
+}
+
+function TableSortableExample() {
+  const columns: TableColumn<ClientRow>[] = [
+    { key: "name", header: "Name", sortable: true },
+    { key: "email", header: "Email" },
+    { key: "balance", header: "Balance (CLP)", numeric: true, sortable: true },
+  ];
+  return (
+    <section>
+      <h2>Table: sortable columns (US2)</h2>
+      <div style={{ maxWidth: "640px" }}>
+        <Table columns={columns} rows={clientRows} />
+      </div>
+    </section>
+  );
+}
+
+function TableSelectableExample() {
+  const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(new Set());
+  const columns: TableColumn<ClientRow>[] = [
+    {
+      key: "name",
+      header: "Name",
+      render: (row) => (
+        <a href={`#client-${row.id}`} onClick={(event) => event.preventDefault()}>
+          {row.name}
+        </a>
+      ),
+    },
+    { key: "email", header: "Email" },
+    { key: "balance", header: "Balance (CLP)", numeric: true },
+  ];
+  return (
+    <section>
+      <h2>Table: row selection (US3) — nested link must stay independently clickable</h2>
+      <p>{selectedIds.size} of {clientRows.length} selected</p>
+      <div style={{ maxWidth: "640px" }}>
+        <Table
+          columns={columns}
+          rows={clientRows}
+          selectable
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+        />
+      </div>
+    </section>
+  );
+}
+
+function TableWideExample() {
+  const columns: TableColumn<ClientRow>[] = [
+    { key: "id", header: "ID" },
+    { key: "name", header: "Name" },
+    { key: "email", header: "Email" },
+    { key: "balance", header: "Balance (CLP)", numeric: true },
+    { key: "name2", header: "Notes", accessor: () => "—" },
+    { key: "name3", header: "Last visit", accessor: () => "2026-06-29" },
+    { key: "name4", header: "Status", accessor: () => "Active" },
+  ];
+  return (
+    <section>
+      <h2>Table: horizontal scroll (FR-019)</h2>
+      <div style={{ maxWidth: "360px" }}>
+        <Table columns={columns} rows={clientRows} />
+      </div>
+    </section>
+  );
+}
+
 function Playground() {
   return (
     <main
@@ -388,6 +503,10 @@ function Playground() {
       <CardRegionGrid />
       <CardClampExample />
       <CardInteractiveGrid />
+      <TableStaticExample />
+      <TableSortableExample />
+      <TableSelectableExample />
+      <TableWideExample />
     </main>
   );
 }

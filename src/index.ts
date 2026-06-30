@@ -26,3 +26,11 @@ export type {
   InteractiveLinkCardProps,
   InteractiveButtonCardProps,
 } from "./components/card/card";
+
+export { Table } from "./components/table/table";
+export type {
+  TableProps,
+  TableColumn,
+  NonSelectableTableProps,
+  SelectableTableProps,
+} from "./components/table/table";
