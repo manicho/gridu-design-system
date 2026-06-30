@@ -5,9 +5,11 @@ import {
   Card,
   Field,
   Input,
+  Navigation,
   Table,
   type ButtonSize,
   type ButtonVariant,
+  type NavItemProps,
   type TableColumn,
 } from "../src";
 import "./playground.css";
@@ -480,6 +482,58 @@ function TableWideExample() {
   );
 }
 
+const navDestinations: NavItemProps[] = [
+  { label: "Bookings", href: "#bookings", active: true, leadingIcon: <PlusIcon /> },
+  { label: "Clients", href: "#clients", leadingIcon: <SearchIcon /> },
+  {
+    label: "Reports (Premium plan required)",
+    href: "#reports",
+    disabled: true,
+    leadingIcon: <ArrowRightIcon />,
+  },
+  { label: "Settings", href: "#settings" },
+  { label: "Log out", as: "button", onClick: () => {} },
+];
+
+function NavigationVerticalExample() {
+  return (
+    <section>
+      <h2>Navigation: vertical sidebar (US1) — active state, disabled destination (US2)</h2>
+      <div style={{ maxWidth: "220px" }}>
+        <Navigation label="Dashboard" destinations={navDestinations} />
+      </div>
+    </section>
+  );
+}
+
+function NavigationHorizontalExample() {
+  return (
+    <section>
+      <h2>Navigation: horizontal bar (US3) — same destinations, same states</h2>
+      <Navigation label="Dashboard (horizontal)" destinations={navDestinations} layout="horizontal" />
+    </section>
+  );
+}
+
+function NavigationEdgeCasesExample() {
+  const longLabelDestinations: NavItemProps[] = [
+    { label: "A very long destination label that should truncate", href: "#long", active: true },
+    { label: "Short", href: "#short" },
+  ];
+  return (
+    <section>
+      <h2>Navigation: label truncation (FR-012), empty destinations (FR-013)</h2>
+      <div style={{ maxWidth: "180px" }}>
+        <Navigation label="Truncation demo" destinations={longLabelDestinations} />
+      </div>
+      <p>Empty destinations:</p>
+      <div style={{ maxWidth: "180px" }}>
+        <Navigation label="Empty demo" destinations={[]} />
+      </div>
+    </section>
+  );
+}
+
 function Playground() {
   return (
     <main
@@ -507,6 +561,9 @@ function Playground() {
       <TableSortableExample />
       <TableSelectableExample />
       <TableWideExample />
+      <NavigationVerticalExample />
+      <NavigationHorizontalExample />
+      <NavigationEdgeCasesExample />
     </main>
   );
 }
