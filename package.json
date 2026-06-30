@@ -6,6 +6,11 @@
   "description": "Shared design system for the gridu ecosystem (tokens, principles, components)",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
+  "files": [
+    "dist",
+    "src",
+    "tokens"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
