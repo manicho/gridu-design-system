@@ -30,5 +30,5 @@ its output becomes this repo's `/speckit-constitution`.
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at specs/05-define-typography-system/plan.md
+at specs/06-define-design-tokens/plan.md
 <!-- SPECKIT END -->
