@@ -15,3 +15,14 @@ export { FieldLabel } from "./components/field/field-label";
 export type { FieldLabelProps } from "./components/field/field-label";
 export { FieldMessage } from "./components/field/field-message";
 export type { FieldMessageProps, FieldMessageTone } from "./components/field/field-message";
+
+export { Card } from "./components/card/card";
+export type {
+  CardProps,
+  CardVariant,
+  CardLayout,
+  InformationalCardProps,
+  InteractiveCardProps,
+  InteractiveLinkCardProps,
+  InteractiveButtonCardProps,
+} from "./components/card/card";

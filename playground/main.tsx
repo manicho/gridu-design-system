@@ -1,6 +1,6 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Button, Field, Input, type ButtonSize, type ButtonVariant } from "../src";
+import { Button, Card, Field, Input, type ButtonSize, type ButtonVariant } from "../src";
 import "./playground.css";
 
 const VARIANTS: ButtonVariant[] = ["primary", "secondary", "destructive", "outline", "ghost"];
@@ -232,6 +232,139 @@ function FieldIconExamples() {
   );
 }
 
+function CardRegionGrid() {
+  return (
+    <section>
+      <h2>Card: layout × region composition</h2>
+      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", maxWidth: "900px" }}>
+        <div style={{ width: "260px" }}>
+          <Card heading="Booking summary" footer="3 appointments today">
+            Vertical layout, heading + body + footer.
+          </Card>
+        </div>
+        <div style={{ width: "260px" }}>
+          <Card heading="No footer">Vertical layout, heading + body only — no reserved footer space.</Card>
+        </div>
+        <div style={{ width: "260px" }}>
+          <Card>No heading, no footer — body only, no reserved space for either.</Card>
+        </div>
+        <div style={{ width: "320px" }}>
+          <Card
+            layout="horizontal"
+            heading="Acme Bookings"
+            footer="Updated 2 hours ago"
+            media={
+              <span
+                aria-hidden="true"
+                style={{
+                  display: "block",
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "9999px",
+                  background: "var(--muted-surface)",
+                }}
+              />
+            }
+          >
+            Horizontal layout — media beside heading/body/footer.
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CardClampExample() {
+  return (
+    <section>
+      <h2>Card: clampBody (FR-015)</h2>
+      <div style={{ width: "220px", height: "160px" }}>
+        <Card heading="Long body text" clampBody>
+          This body text is deliberately long enough to overflow three lines, so the
+          clampBody prop should truncate it to exactly three lines with a visible ellipsis
+          rather than silently clipping it or growing the card past its fixed-height
+          container.
+        </Card>
+      </div>
+    </section>
+  );
+}
+
+function CardInteractiveGrid() {
+  const [selected, setSelected] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <section>
+      <h2>Card: interactive states (US2)</h2>
+      <label style={{ marginRight: "1rem" }}>
+        <input
+          type="checkbox"
+          checked={selected}
+          onChange={(event) => setSelected(event.target.checked)}
+        />{" "}
+        selected
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={disabled}
+          onChange={(event) => setDisabled(event.target.checked)}
+        />{" "}
+        disabled
+      </label>
+      <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", marginTop: "1rem" }}>
+        <div style={{ width: "240px" }}>
+          <Card
+            variant="interactive"
+            as="button"
+            heading="Plan card (button)"
+            selected={selected}
+            disabled={disabled}
+            onClick={() => console.log("plan card clicked")}
+          >
+            Tab to it, hover it, click/Enter-activate it.
+          </Card>
+        </div>
+        <div style={{ width: "240px" }}>
+          <Card
+            variant="interactive"
+            as="a"
+            href="#business-profile"
+            heading="Business profile (link)"
+            selected={selected}
+            disabled={disabled}
+          >
+            Renders as a native anchor — navigates on activation.
+          </Card>
+        </div>
+        <div style={{ width: "240px" }}>
+          <Card
+            variant="interactive"
+            as="a"
+            href="#nested-example"
+            heading="Nested interactive element"
+            onClick={() => console.log("card navigated")}
+            footer={
+              <Button
+                size="sm"
+                onClick={(event) => {
+                  event.preventDefault();
+                  console.log("nested button clicked");
+                }}
+              >
+                Nested button
+              </Button>
+            }
+          >
+            Clicking the footer button must not also navigate the card.
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Playground() {
   return (
     <main
@@ -252,6 +385,9 @@ function Playground() {
       <FieldStatesGrid />
       <FieldErrorInspector />
       <FieldIconExamples />
+      <CardRegionGrid />
+      <CardClampExample />
+      <CardInteractiveGrid />
     </main>
   );
 }
