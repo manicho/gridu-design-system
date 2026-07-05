@@ -8,7 +8,10 @@ node_modules
 .pnp.js
 
 # Build output
-dist
+# dist/ IS committed (not ignored) — git-dependency installs (gridu-web, gridu-landing) need
+# the built output without running this repo's own devDependencies (Vite, Tailwind v4, and
+# its native lightningcss binaries), which `prepare` previously pulled in and pushed Yarn
+# classic into a known extraction-corruption bug under that load (see consumer commits).
 dist-ssr
 *.local
 

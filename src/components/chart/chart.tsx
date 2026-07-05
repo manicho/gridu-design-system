@@ -68,6 +68,16 @@ function labelStride(count: number, plotWidth: number): number {
   return Math.max(1, Math.ceil(count / maxLabels));
 }
 
+// A middle-anchored label at the plot's own left/right edge overflows the SVG's
+// drawable area by roughly half its rendered width, regardless of the chart's
+// total width (the edge position is always plot.left/plot.right). Anchoring the
+// first/last *shown* label to start/end instead keeps it inside the SVG bounds.
+function tickAnchor(index: number, lastShownIndex: number): "start" | "middle" | "end" {
+  if (index === 0) return "start";
+  if (index === lastShownIndex) return "end";
+  return "middle";
+}
+
 function formatTickValue(value: number): string {
   return String(Math.round(value * 100) / 100);
 }
@@ -199,6 +209,7 @@ export function Chart({
   const zeroY = valueScale(0);
 
   const stride = labelStride(points.length, plot.width);
+  const lastShownIndex = Math.floor((points.length - 1) / stride) * stride;
   const lineSegments = mode === "line" ? buildLineSegments(points, plot, valueScale) : [];
   const barRects = mode === "bar" ? buildBarRects(points, plot, valueScale) : [];
 
@@ -241,7 +252,7 @@ export function Chart({
               key={`tick-${index}`}
               x={indexToX(index, points.length, plot)}
               y={plot.bottom + CATEGORY_AXIS_HEIGHT}
-              textAnchor="middle"
+              textAnchor={tickAnchor(index, lastShownIndex)}
               className="text-caption fill-muted-foreground"
             >
               {point.label}

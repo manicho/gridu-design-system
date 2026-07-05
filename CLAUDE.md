@@ -30,5 +30,5 @@ its output becomes this repo's `/speckit-constitution`.
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at specs/12-chart-component/plan.md
+at specs/22a-component-a11y-audit/plan.md
 <!-- SPECKIT END -->
